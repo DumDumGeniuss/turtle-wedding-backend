@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Photos from '../models/Photos';
+import Photos from '../models/photos';
 import multer from "multer";
 import config from "../config/config"
 import files from '../lib/files'
