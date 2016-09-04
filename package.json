@@ -34,6 +34,7 @@
     "compression": "^1.5.2",
     "cors": "^2.7.1",
     "express": "^4.13.3",
+    "mmmagic": "^0.4.5",
     "mongoose": "^4.6.0",
     "multer": "^1.2.0",
     "resource-router-middleware": "^0.5.1"
