@@ -6,7 +6,7 @@ import files from '../lib/files'
 
 const photoUpload = multer({ dest: config.photoPath });
 const photoCpUpload = photoUpload.fields([
-        { name: 'photo', maxCount: 1 }]);
+        { name: 'photo', maxCount: 100 }]);
 
 let routes = Router();
 
@@ -32,24 +32,26 @@ routes.get('/', (req, res) => {
 POST /Photos
 */
 routes.post('/', photoCpUpload, (req, res) => {
-	let photo= new Photos();
-	let data = req.body;
-	let files = req.files;
-	for(var key in data) {
-		photo[key] = data[key];
+	let files = req.files["photo"];
+	let results = [];
+	
+	for(var key in files) {
+		let photo= new Photos();
+		photo['fileName'] = files[key].filename;
+		photo.save((err, photo) => {
+			if(err) {
+				res.send(err);
+			}
+			results.push(photo);
+			 if(results.length === files.length) {
+				res.json({
+					status: 'success',
+					message: 'Photoscreate success!',
+					data: photo			
+				});
+			}
+		});
 	}
-	photo['fileName'] = files["photo"][0].filename;
-	photo.save((err, photo) => {
-		if(err) {
-			res.send(err);
-		} else {
-			res.json({
-				status: 'success',
-				message: 'Photoscreate success!',
-				data: photo			
-			});
-		}
-	});
 });
 
 /*
